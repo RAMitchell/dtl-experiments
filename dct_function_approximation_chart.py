@@ -35,7 +35,7 @@ plt.rc('axes', prop_cycle=(cycler('color', ['g', 'r', 'b', 'y', 'c', 'm']) +
 plt.plot(X[:, 0], y,label="$y=x^5-8x^3+10x+6$")
 '''
 for max_coefficients in dct_coefficients:
-    param = {"booster": "gbdct", "max_coefficients": max_coefficients, "max_bins":32}
+    param = {"booster": "gbdtl", "max_coefficients": max_coefficients, "max_bins":32}
     dtrain = xgb.DMatrix(X, y)
     bst = xgb.train(param, dtrain, num_rounds)
     dct_pred = bst.predict(dtrain)
@@ -43,14 +43,14 @@ for max_coefficients in dct_coefficients:
 '''
 haar_coefficients = [(4,8),(16,128)]
 for coefficients in haar_coefficients:
-    param = {"booster": "gbdct", "max_coefficients": coefficients[0], "max_bin": coefficients[1], "regularising_transform":"haar"}
+    param = {"booster": "gbdtl", "max_coefficients": coefficients[0], "max_bin": coefficients[1], "discrete_transform":"haar"}
     dtrain = xgb.DMatrix(X, y)
     bst = xgb.train(param, dtrain, num_rounds)
     dct_pred = bst.predict(dtrain)
     plt.plot(X[:, 0], dct_pred, label=str(coefficients[0]) + "/" + str(param["max_bin"]) + " haar coefficients, " + rmse(y,dct_pred))
 identity_coefficients = [(4,4),(16,16)]
 for coefficients in identity_coefficients:
-    param = {"booster": "gbdct", "max_coefficients": coefficients[0], "max_bin": coefficients[1], "regularising_transform":"haar"}
+    param = {"booster": "gbdtl", "max_coefficients": coefficients[0], "max_bin": coefficients[1], "discrete_transform":"haar"}
     dtrain = xgb.DMatrix(X, y)
     bst = xgb.train(param, dtrain, num_rounds)
     dct_pred = bst.predict(dtrain)
@@ -67,13 +67,13 @@ plt.rc('axes', prop_cycle=(cycler('color', ['g', 'y', 'c', 'm', 'b', 'r']) +
                            cycler('linestyle', ['-', '-', '-', '-', '-', '-'])))
 plt.plot(X[:, 0], y,label="$y=x^5-8x^3+10x+6$")
 
-param = {"booster": "gbdct", "max_coefficients": 16, "max_bins":32}
+param = {"booster": "gbdtl", "max_coefficients": 16, "max_bins":32}
 dtrain = xgb.DMatrix(X, y)
 bst = xgb.train(param, dtrain, num_rounds)
 dct_pred = bst.predict(dtrain)
 plt.plot(X[:, 0], dct_pred, label=str(max_coefficients) + "/32 dct coefficients, " + rmse(y,dct_pred))
 
-param = {"booster": "gbdct", "max_coefficients": 16, "max_bins":32, "regularising_transform":"haar"}
+param = {"booster": "gbdtl", "max_coefficients": 16, "max_bins":32, "discrete_transform":"haar"}
 dtrain = xgb.DMatrix(X, y)
 bst = xgb.train(param, dtrain, num_rounds)
 dct_pred = bst.predict(dtrain)

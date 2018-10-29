@@ -19,22 +19,22 @@ plt.rc('axes', prop_cycle=(cycler('color', ['r', 'r', 'g', 'g', 'b', 'b', 'y', '
                            cycler('linestyle', ['-', '--', '-', '--', '-', '--', '-', '--', '-', '--', '-', '--'])))
 
 for max_coefficients in dct_coefficients:
-    param = {"booster": "gbdct", "max_coefficients": max_coefficients,"regularising_transform":"dct"}
+    param = {"booster": "gbdtl", "max_coefficients": max_coefficients,"discrete_transform":"dct"}
     param.update(common_param)
     res = {}
     bst = xgb.train(param, dtrain, num_rounds, evals=[(dtrain, "train"), (dtest, "test")], evals_result=res)
-    plt.plot(res["train"]["error"], label=str(max_coefficients) + " " + param["regularising_transform"] + " coefficients - train")
-    plt.plot(res["test"]["error"], label=str(max_coefficients) + " " + param["regularising_transform"] + " coefficients - test")
+    plt.plot(res["train"]["error"], label=str(max_coefficients) + " " + param["discrete_transform"] + " coefficients - train")
+    plt.plot(res["test"]["error"], label=str(max_coefficients) + " " + param["discrete_transform"] + " coefficients - test")
 
 identity_coefficients = [8, 16]
 for max_coefficients in dct_coefficients:
-    param = {"booster": "gbdct", "max_coefficients": max_coefficients,"regularising_transform":"haar"}
+    param = {"booster": "gbdtl", "max_coefficients": max_coefficients,"discrete_transform":"haar"}
     param.update(common_param)
     #param["max_bin"] = max_coefficients
     res = {}
     bst = xgb.train(param, dtrain, num_rounds, evals=[(dtrain, "train"), (dtest, "test")], evals_result=res)
-    plt.plot(res["train"]["error"], label=str(max_coefficients) + " " + param["regularising_transform"] + " coefficients - train")
-    plt.plot(res["test"]["error"], label=str(max_coefficients) + " " + param["regularising_transform"] + " coefficients - test")
+    plt.plot(res["train"]["error"], label=str(max_coefficients) + " " + param["discrete_transform"] + " coefficients - train")
+    plt.plot(res["test"]["error"], label=str(max_coefficients) + " " + param["discrete_transform"] + " coefficients - test")
 
 param = {"booster": "gblinear"}
 param.update(common_param)
